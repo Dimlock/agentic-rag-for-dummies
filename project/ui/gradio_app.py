@@ -43,10 +43,10 @@ def create_gradio_ui():
         
         with gr.Tab("Documents", elem_id="doc-management-tab"):
             gr.Markdown("## Add New Documents")
-            gr.Markdown("Upload PDF or Markdown files. Duplicates will be automatically skipped.")
+            gr.Markdown("Upload Text or Markdown files. Duplicates will be automatically skipped.")
             
             files_input = gr.File(
-                label="Drop PDF or Markdown files here",
+                label="Drop Text or Markdown files here",
                 file_count="multiple",
                 type="filepath",
                 height=200,

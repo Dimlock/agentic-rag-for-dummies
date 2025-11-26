@@ -15,7 +15,7 @@ class DocumentManager:
             return 0, 0
             
         document_paths = [document_paths] if isinstance(document_paths, str) else document_paths
-        document_paths = [p for p in document_paths if p and Path(p).suffix.lower() in [".pdf", ".md", ".docx"]]
+        document_paths = [p for p in document_paths if p and Path(p).suffix.lower() in [".pdf", ".md", ".docx", ".doc"]]
         
         if not document_paths:
             return 0, 0
