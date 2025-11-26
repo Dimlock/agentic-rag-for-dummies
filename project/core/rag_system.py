@@ -1,11 +1,11 @@
 import uuid
 from langchain_ollama import ChatOllama
-import config
-from db.vector_db_manager import VectorDbManager
-from db.parent_store_manager import ParentStoreManager
-from document_chunker import DocumentChuncker
-from rag_agent.tools import ToolFactory
-from rag_agent.graph import create_agent_graph
+import project.config as config
+from project.db.vector_db_manager import VectorDbManager
+from project.db.parent_store_manager import ParentStoreManager
+from project.document_chunker import DocumentChuncker
+from project.rag_agent.tools import ToolFactory
+from project.rag_agent.graph import create_agent_graph
 
 class RAGSystem:
     

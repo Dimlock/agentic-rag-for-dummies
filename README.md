@@ -235,8 +235,8 @@ from langchain_qdrant.fastembed_sparse import FastEmbedSparse
 from qdrant_client import QdrantClient
 
 # Configuration
-DOCS_DIR = "docs"  # Directory containing your pdfs files
-MARKDOWN_DIR = "markdown" # Directory containing the pdfs converted to markdown
+DOCS_DIR = "project/docs"  # Directory containing your pdfs files
+MARKDOWN_DIR = "markdown"  # Directory containing the pdfs converted to markdown
 PARENT_STORE_PATH = "parent_store"  # Directory for parent chunk JSON files
 CHILD_COLLECTION = "document_child_chunks"
 
@@ -245,6 +245,7 @@ os.makedirs(MARKDOWN_DIR, exist_ok=True)
 os.makedirs(PARENT_STORE_PATH, exist_ok=True)
 
 from langchain_ollama import ChatOllama
+
 llm = ChatOllama(model="qwen3:4b-instruct-2507-q4_K_M", temperature=0.1)
 
 # Dense embeddings for semantic understanding
@@ -306,12 +307,15 @@ import glob
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+
 def pdf_to_markdown(pdf_path, output_dir):
     doc = pymupdf.open(pdf_path)
-    md = pymupdf4llm.to_markdown(doc, header=False, footer=False, page_separators=True, ignore_images=True, write_images=False, image_path=None)
+    md = pymupdf4llm.to_markdown(doc, header=False, footer=False, page_separators=True, ignore_images=True,
+                                 write_images=False, image_path=None)
     md_cleaned = md.encode('utf-8', errors='surrogatepass').decode('utf-8', errors='ignore')
     output_path = Path(output_dir) / Path(doc.name).stem
     Path(output_path).with_suffix(".md").write_bytes(md_cleaned.encode('utf-8'))
+
 
 def pdfs_to_markdowns(path_pattern, overwrite: bool = False):
     output_dir = Path(MARKDOWN_DIR)
@@ -322,7 +326,8 @@ def pdfs_to_markdowns(path_pattern, overwrite: bool = False):
         if overwrite or not md_path.exists():
             pdf_to_markdown(pdf_path, output_dir)
 
-pdfs_to_markdowns("./docs/*.pdf")
+
+pdfs_to_markdowns("project/docs/*.pdf")
 ```
 
 ---

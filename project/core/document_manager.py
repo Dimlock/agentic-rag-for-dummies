@@ -1,7 +1,7 @@
 from pathlib import Path
 import shutil
-import config
-from util import pdfs_to_markdowns
+import project.config as config
+from project.util import pdfs_to_markdowns
 
 class DocumentManager:
 
@@ -15,7 +15,7 @@ class DocumentManager:
             return 0, 0
             
         document_paths = [document_paths] if isinstance(document_paths, str) else document_paths
-        document_paths = [p for p in document_paths if p and Path(p).suffix.lower() in [".pdf", ".md"]]
+        document_paths = [p for p in document_paths if p and Path(p).suffix.lower() in [".pdf", ".md", ".docx"]]
         
         if not document_paths:
             return 0, 0
