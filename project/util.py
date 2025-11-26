@@ -1,16 +1,36 @@
 import os
+
+from docling.datamodel.base_models import InputFormat
+
 import config
 import pymupdf.layout
 import pymupdf4llm
 from pathlib import Path
 import glob
-from docling.document_converter import DocumentConverter
+from docling.document_converter import DocumentConverter, WordFormatOption
+from docling.datamodel.pipeline_options import smolvlm_picture_description, PdfPipelineOptions
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def pdf_to_markdown(pdf_path, output_dir):
+    pipeline_options = PdfPipelineOptions()
+    pipeline_options.do_picture_description = True
+    pipeline_options.picture_description_options = (
+        smolvlm_picture_description
+    )
+    pipeline_options.picture_description_options.prompt = (
+        "Опиши картинку в трех предложениях. Будь кратким и точным."
+    )
+    pipeline_options.images_scale = 2.0
+    pipeline_options.generate_picture_images = True
     source = pdf_path  # file path or URL
-    converter = DocumentConverter()
+    converter = DocumentConverter(
+        format_options={
+            InputFormat.DOCX: WordFormatOption(
+                pipeline_options=pipeline_options
+            )
+        }
+    )
     doc = converter.convert(source).document
     md = doc.export_to_markdown()
     md_cleaned = md.encode('utf-8', errors='surrogatepass').decode('utf-8', errors='ignore')
